@@ -3,13 +3,15 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+## Custom
+#*.xml
+
 # User-specific files
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
-#*.xml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -265,7 +267,6 @@ ServiceFabricBackup/
 #*.mdf
 #*.ldf
 #*.ndf
-#*.sql
 
 # Business Intelligence projects
 *.rdl.data
