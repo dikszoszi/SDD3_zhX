@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# CA5394: Do not use insecure randomness
+dotnet_diagnostic.CA5394.severity = silent
+
+# CA1814: Prefer jagged arrays over multidimensional
+dotnet_diagnostic.CA1814.severity = silent
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = suggestion

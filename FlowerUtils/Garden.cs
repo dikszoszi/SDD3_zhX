@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+[assembly: CLSCompliant(false)]
 namespace FlowerUtils
 {
     public class Garden
     {
-        private readonly object fieldLock = new object();
-        private readonly object listLock = new object();
-        private char[,] field;
-        private CancellationTokenSource cts;
-        public List<Flower> Flowers { get; private set; }
+        private readonly object fieldLock = new ();
+        private readonly object listLock = new ();
+        private readonly char[,] field;
+        private readonly CancellationTokenSource cts;
+        public IList<Flower> Flowers { get; private set; }
         public Position PlayerPosition { get; private set; }
         public Position Size
         {
@@ -40,33 +41,29 @@ namespace FlowerUtils
             if (dx == 0 || dy == 0) return;
             lock (fieldLock)
             {
-                int posX = this.PlayerPosition.X;
-                int posY = this.PlayerPosition.Y;
                 int height = this.field.GetLength(0);
                 int width = this.field.GetLength(1);
+                int X = (this.PlayerPosition.X + dx) % width;
+                int Y = (this.PlayerPosition.Y + dy) % height;
 
-                if (dx > 0)
+                if (X >= width)
                 {
-                    if ((posX += dx % width) >= width) posX -= width;
-                    //else posX += dx;
+                    X -= width;
                 }
-                else if (dx < 0)
+                else if (X < 0)
                 {
-                    if ((posX += dx % width) < 0) posX += width;
-                    //else posX += dx;
+                    X += width;
                 }
 
-                if (dy > 0)
+                if (Y >= height)
                 {
-                    if ((posY += dy % height) >= height) posY -= height;
-                    //else posY += dy;
+                    Y -= height;
                 }
-                else if (dy < 0)
+                else if (Y < 0)
                 {
-                    if ((posY += dy % height) < 0) posY += height;
-                    //else posY += dy;
+                    Y += height;
                 }
-                this.PlayerPosition = new Position(posX, posY);
+                this.PlayerPosition = new Position(X, Y);
             }
         }
 
@@ -83,7 +80,10 @@ namespace FlowerUtils
                 }
                 lock (listLock)
                 {
-                    this.Flowers.ForEach(flowr => this.field[flowr.Position.Y, flowr.Position.X] = flowr.Symbol);
+                    foreach (Flower flower in this.Flowers)
+                    {
+                        this.field[flower.Position.Y, flower.Position.X] = flower.Symbol;
+                    }
                 }
             }
         }
@@ -143,14 +143,18 @@ namespace FlowerUtils
 
         private void GrowFlower(CancellationToken ct)
         {
-            Flower newFlower = new Flower(this.PlayerPosition);
+            Flower newFlower = new (this.PlayerPosition);
             lock (listLock) this.Flowers.Add(newFlower);
             Thread.Sleep(1000);
             bool isFinished = false;
 
             while (!ct.IsCancellationRequested)
             {
-                lock (listLock) isFinished = this.Flowers.Single(flwr => flwr.Position.Equals(newFlower.Position)).Grow();
+                lock (listLock)
+                {
+                    isFinished = this.Flowers.Single(flwr => flwr.Position == newFlower.Position).Grow();
+                }
+
                 Thread.Sleep(1000);
                 UpdateField();
                 if (isFinished) break;
@@ -162,7 +166,10 @@ namespace FlowerUtils
         {
             Thread.Sleep(1500);
             UpdateField();
-            lock (fieldLock) return this.field;
+            lock (fieldLock)
+            {
+                return this.field;
+            }
         }
 
         public override string ToString()

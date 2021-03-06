@@ -5,16 +5,16 @@ namespace FlowerUtils
     /// <summary>
     /// Represents coordinates in 2-D Cartesian coordinate system.
     /// </summary>
-    public struct Position
+    public struct Position : IEquatable<Position>
     {
         /// <summary>
         /// Position on the horizontal axis.
         /// </summary>
-        public int X;
+        public int X { get; private set; }
         /// <summary>
         /// Position on the vertical axis.
         /// </summary>
-        public int Y;
+        public int Y { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="Position"/>.
@@ -37,6 +37,21 @@ namespace FlowerUtils
         public override int GetHashCode()
         {
             return HashCode.Combine(X, Y);
+        }
+
+        public static bool operator ==(Position left, Position right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Position left, Position right)
+        {
+            return !(left == right);
+        }
+
+        public bool Equals(Position other)
+        {
+            return this.X == other.X && this.Y == other.Y;
         }
     }
 }

@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerGarden", "FlowerGarde
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerUtils", "FlowerUtils\FlowerUtils.csproj", "{30B9675F-3EBD-47A8-B4B7-EC3530837F4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GardenTests", "GardenTests\GardenTests.csproj", "{FDD18093-089F-4B30-9C26-BD622F4C76C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GardenTests", "GardenTests\GardenTests.csproj", "{FDD18093-089F-4B30-9C26-BD622F4C76C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F965DB20-B55B-4D3B-AE7E-4169693A13AA}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -18,12 +18,12 @@ namespace FlowerUtils
         public Position Position { get; set; }
         public char Symbol { get; set; }
 
-        public static char[] Stages => new char[] { '-', '+', 'w', 'W', 'o', 'O', 'X' };
+        public static IList<char> Stages => new char[] { '-', '+', 'w', 'W', 'o', 'O', 'X' };
 
         public bool Grow()
         {
-            int currentSymbolIndex = Array.IndexOf(Stages, this.Symbol);
-            if (currentSymbolIndex >= Stages.Length - 1) return true;
+            int currentSymbolIndex = Stages.IndexOf(this.Symbol);
+            if (currentSymbolIndex >= Stages.Count - 1) return true;
 
             this.Symbol = Stages[currentSymbolIndex + 1];
             return false;
